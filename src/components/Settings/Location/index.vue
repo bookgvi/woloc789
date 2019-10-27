@@ -111,6 +111,7 @@ export default {
       const result = await studios.createStudio(this.singleStudio)
       if (result) {
         this.isSave = false
+        this.$forceUpdate()
       }
     }
   },

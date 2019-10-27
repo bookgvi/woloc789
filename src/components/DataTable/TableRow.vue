@@ -64,9 +64,6 @@
 
 <script>
 import { BOOKING_STATUSES } from 'src/common/constants'
-import roomsColors from 'src/common/rooms/colors'
-
-const usedColors = {}
 
 export default {
   name: 'TableRow',
@@ -99,22 +96,24 @@ export default {
         style
       }
     },
-    // TODO: get color from API
-    getRoomStyle ({ id }) {
-      if (!(id in usedColors)) {
-        const i = Object.keys(usedColors).length
-        usedColors[id] = roomsColors[i < roomsColors.length ? i : 0]
-      }
-
+    getRoomStyle ({ color }) {
       return {
-        width: '90%',
+        color: color,
         height: '80%',
-        whiteSpace: 'normal',
-        backgroundColor: usedColors[id].color
+        backgroundColor: this.hexTOrgba(color, 0.4)
       }
     },
     rowDialog (row) {
       this.$emit('toggleDialogRow', row)
+    },
+    hexTOrgba (value, opacity) {
+      if (value[0] === '#') {
+        value = value.slice(1, value.length)
+      }
+      const r = parseInt(value.slice(0, 2), 16)
+      const g = parseInt(value.slice(2, 4), 16)
+      const b = parseInt(value.slice(4, 6), 16)
+      return `rgba(${r}, ${g}, ${b}, ${opacity < 1 ? opacity : opacity / 100})`
     }
   }
 }
@@ -130,10 +129,10 @@ export default {
       width 100px
       border-radius 3px
       .q-chip__content
-        opacity .4
         width 100%
         overflow hidden
         text-overflow ellipsis
+        white-space normal
     .eventType-col
       font-size 1.6em
     .comment-col
