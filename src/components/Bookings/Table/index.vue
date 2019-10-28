@@ -91,8 +91,8 @@ export default {
       }
       this.extras = extras
       this.$nextTick(_ => {
-        tooltipTop = Math.min(document.documentElement.clientHeight - this.$refs.tooltip.clientHeight, event.pageY)
-        tooltipRight = Math.min(document.documentElement.clientWidth - this.$refs.tooltip.clientWidth, event.pageX)
+        tooltipTop = Math.min(document.documentElement.clientHeight - this.$refs.tooltip.clientHeight, event.pageY - window.pageYOffset)
+        tooltipRight = Math.min(document.documentElement.clientWidth - this.$refs.tooltip.clientWidth, event.pageX - window.pageXOffset)
         this.$refs.tooltip.style.left = tooltipRight + 'px'
         this.$refs.tooltip.style.top = tooltipTop + 'px'
       })
