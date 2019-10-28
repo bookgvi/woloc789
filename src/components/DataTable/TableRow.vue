@@ -5,6 +5,7 @@
       v-for="{ name, value, active } of cols"
       v-bind="getColProps(name)"
       @click.native="active && rowDialog(row)"
+      @mouseover.native="hTooltip(row, name, $event)"
     )
       template(v-if="name === 'room'")
         q-chip(
@@ -114,6 +115,13 @@ export default {
       const g = parseInt(value.slice(2, 4), 16)
       const b = parseInt(value.slice(4, 6), 16)
       return `rgba(${r}, ${g}, ${b}, ${opacity < 1 ? opacity : opacity / 100})`
+    },
+    hTooltip (row, name, event) {
+      if (this.$route.path === '/bookings' && name === 'extras') {
+        this.$emit('hTooltip', row.extras.items, event)
+      } else {
+        this.$emit('hTooltip', false, event)
+      }
     }
   }
 }

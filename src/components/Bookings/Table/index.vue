@@ -8,6 +8,7 @@
       :details="details"
       :isRowDisabled="({ status }) => status === disabledStatus"
       @toggleDialogRow="toggleDialogRow"
+      @hTooltip="hTooltip"
     )
       template(#row-dialog="props")
         bookings-dialog(v-bind="props")
@@ -21,6 +22,8 @@
         BookingsDialog(
           :row="bookingRowData"
         )
+    .div(:style="position" v-if="isTooltip")
+      div.bg-primary.q-pa-md(v-for="item in extras" :key="item.id") {{ item.title }} {{ item. amount }}
 </template>
 
 <script>
@@ -41,7 +44,16 @@ export default {
     disabledStatus: BOOKING_STATUSES.CANCELED,
     isModal: false,
     bookingRowData: {},
-    room: {}
+    room: {},
+    isTooltip: true,
+    position: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      fontSize: '0.8rem',
+      width: '600px'
+    },
+    extras: []
   }),
   computed: {
     returnFilter () {
@@ -71,6 +83,15 @@ export default {
       this.$nextTick(_ => {
         this.isModal = true
       })
+    },
+    hTooltip (extras, event) {
+      if (!extras) {
+        this.isTooltip = false
+      }
+      this.extras = extras
+      this.position.left = event.clientX + 'px'
+      this.position.top = event.clientY + 'px'
+      this.isTooltip = true
     }
   },
   created () {
