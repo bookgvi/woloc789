@@ -42,7 +42,7 @@ export default [
     width: 100
   },
   {
-    name: 'isPaid',
+    name: 'bookingStatus',
     field: 'status',
     active: true,
     width: 10,

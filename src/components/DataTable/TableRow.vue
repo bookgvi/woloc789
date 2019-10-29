@@ -1,9 +1,8 @@
 <template lang="pug">
-  q-tr(:class="{ disabled }")
+  q-tr(:class="{ disabled }" ref="qtr")
     q-td(
       :key="name"
       v-for="{ name, value, active } of cols"
-      v-bind="getColProps(name)"
       @click.native="active && rowDialog(row)"
       @mouseover.native="hTooltip(row, name, $event)"
     )
@@ -15,8 +14,6 @@
         ) {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
-      template(v-else-if="name === 'isPaid'")
-        q-icon(size="sm" name="check" color="green" v-if="value === paidStatus")
       template(v-else-if="['comment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
