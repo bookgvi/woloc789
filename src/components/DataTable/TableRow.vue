@@ -4,6 +4,7 @@
       :key="name"
       v-for="{ name, value, active } of cols"
       @click.native="active && rowDialog(row)"
+      v-bind="getColProps(name)"
       @mouseover.native="hTooltip(row, name, $event)"
     )
       template(v-if="name === 'room'")
@@ -14,6 +15,8 @@
         ) {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
+      template(v-else-if="name === 'bookingStatus'")
+        span(v-bind="styleMethod(value.title)")
       template(v-else-if="['comment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
@@ -102,6 +105,7 @@ export default {
       }
     },
     rowDialog (row) {
+      if (this.$refs.qtr.$el.classList.value === 'disabled') { return }
       this.$emit('toggleDialogRow', row)
     },
     hexTOrgba (value, opacity) {
@@ -119,6 +123,13 @@ export default {
       } else {
         this.$emit('hTooltip', false, event)
       }
+    },
+    styleMethod (name) {
+      this.$nextTick(_ => {
+        if (['Отменено'].includes(name)) {
+          this.$refs.qtr.$el.classList.add('disabled')
+        }
+      })
     }
   }
 }
