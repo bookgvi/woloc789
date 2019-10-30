@@ -137,7 +137,7 @@ export default {
 
 <style lang="stylus">
   tr.disabled
-    opacity: .2
+    opacity .2
   .q-table tbody tr
     .active
       cursor: pointer
